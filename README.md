@@ -1,7 +1,8 @@
-Pinmaps.netApiClient
-====================
+A C# Rest API Client for the Pinmaps.net Service
 
-C# RestAPI Client for the Pinmaps.net Service
+<img src="http://www.pinmaps.net/images/header_trans.png" style="border:0" />
+
+<h3>The Best way to save your favorite locations on a map</h3>
 
 <h2>About</h2>
 <p>

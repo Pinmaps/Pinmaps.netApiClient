@@ -21,9 +21,11 @@ DeveloperApiLogin, DeveloperApiKey, Username, and UserApiKey.
 </p>
 
 Obtaining these four API Credentials is a three step process:
-You have to signup for the Pinmaps.net service
-You have to register as a Pinmaps.net Developer
-You need to obtain your user's API key
+<ul>
+  <li>You have to <a href="http://www.pinmaps.net/Login/CreateUser.aspx">signup for the Pinmaps.net service</a> </li>
+  <li>You have to <a rel="nofollow" href="http://www.pinmaps.net/Users/DeveloperApi.aspx">register as a Pinmaps.net Developer</a> </li>
+  <li>You need to <a rel="nofollow" href="http://www.pinmaps.net/Users/User_ApiKey.aspx"> obtain your user's API key</a> </li>
+</ul>
 Your Developer's API key will allow you to interact with your own pinmaps account as well as to make calls to the Pinmaps API on behalf of other users. If you want to make API calls on behalf of other users you need to ask them for their user's API key.
 
 

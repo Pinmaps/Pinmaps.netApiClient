@@ -19,3 +19,7 @@ You have to signup for the Pinmaps.net service
 You have to register as a Pinmaps.net Developer
 You need to obtain your user's API key
 Your Developer's API key will allow you to interact with your own pinmaps account as well as to make calls to the Pinmaps API on behalf of other users. If you want to make API calls on behalf of other users you need to ask them for their user's API key.
+
+
+API Documentation <br />
+http://api.pinmaps.net/Documentation/

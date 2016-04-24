@@ -1,16 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Pinmaps.netApiClient.ApiResponse
+﻿namespace Pinmaps.netApiClient.ApiResponse
 {
     public class IconResponse
     {
-        public IconResponse() { }
-
-        public int IconID { get; set; }
+        public int IconId { get; set; }
         public string IconName { get; set; }
         public string IconShadow { get; set; }
         public string IconWidth { get; set; }

@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Pinmaps.netApiClient.ApiRequest
+﻿namespace Pinmaps.netApiClient.ApiRequest
 {
     public class MapPointRequest
     {
-        public int MapID { get; set; }                 // Required
-        public int MapPointID { get; set; }            // Required for PUT not used for POST
+        public int MapId { get; set; }                 // Required
+        public int MapPointId { get; set; }            // Required for PUT not used for POST
         public string PointName { get; set; }          // Required
         public string UserName { get; set; }           // Required
         public string Address { get; set; }            // Required

@@ -1,4 +1,4 @@
-﻿//Copyright (c) 2011-2013 Pinmaps.net (Sergio Tobon)
+﻿//Copyright (c) 2011-2016 Pinmaps.net (Sergio Tobon)
 //Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation 
 //files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, 
 //modify the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
@@ -11,33 +11,27 @@
 
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Pinmaps.netApiClient.ApiResponse;
 using Pinmaps.netApiClient.ApiRequest;
 
 namespace Pinmaps.netApiClient
 {
-    class Program
+    public class Program
     {
         ///<remarks>
         /// PINMAPS.NET API DOCUMENTATION
         /// http://api.pinmaps.net/Documentation/
-        /// PINMAPS.NET API HOME
-        /// http://api.pinmaps.net/
         /// PINMAPS.NET MAPPING SERVICE
-        /// http://www.pinmaps.net/
+        /// https://www.pinmaps.net/
         ///</remarks>
         
-        private static string API_BASE_URL = "http://api.pinmaps.net/v1/";
-        private static string DEVELOPER_API_LOGIN = "[ApiLogin Here]";
-        private static string DEVELOPER_API_KEY = "[DeveloperApiKey Here]";
-        private static string USER_NAME = "[UserName Here]";
-        private static string USER_API_KEY = "[UserApyKey Here]";        
-        
-        static void Main(string[] args)
+        private const string ApiBaseUrl = "http://api.pinmaps.net/v1/";
+        private const string DeveloperApiLogin = "[ApiLogin Here]";
+        private const string DeveloperApiKey = "[DeveloperApiKey Here]";
+        private const string UserName = "[UserName Here]";
+        private const string UserApiKey = "[UserApyKey Here]";
+
+        static void Main()
         {
             ValidateApiCredentials();
             ValidateDeveloperApiCredentials();
@@ -63,28 +57,25 @@ namespace Pinmaps.netApiClient
         ///GET v1/credentials/validate
         ///This method validates both the Developer's and the User's API Credentials at the same time.
         ///</summary>
-        ///<example>
-        ///Request URL
-        ///http://api.pinmaps.net/v1/credentials/validate?apiLogin={apiLogin}&developerKey={developerKey}&userName={userName}&userKey={userKey}
-        /// </example>
         public static void ValidateApiCredentials()
         {
             try
             {
-                System.Console.Clear();
-                RestFactory<ApiCredentialsResponse> RestRepository = new RestFactory<ApiCredentialsResponse>();
-                string formattedUrl = API_BASE_URL + "credentials/validate?apiLogin={0}&developerKey={1}&userName={2}&userKey={3}";
-                formattedUrl = string.Format(formattedUrl, DEVELOPER_API_LOGIN, DEVELOPER_API_KEY, USER_NAME, USER_API_KEY);
+                Console.Clear();
+                RestFactory<ApiCredentialsResponse> restRepository = new RestFactory<ApiCredentialsResponse>();
+                string formattedUrl = ApiBaseUrl + "credentials/validate?apiLogin={0}&developerKey={1}&userName={2}&userKey={3}";
+                formattedUrl = string.Format(formattedUrl, DeveloperApiLogin, DeveloperApiKey, UserName, UserApiKey);
 
-                var item = RestRepository.GetEntity(formattedUrl);
+                var item = restRepository.GetEntity(formattedUrl);
+                Console.Write("\n{0}", item.Valid);
 
-                System.Console.Write("\nPlease enter any key...");
-                System.Console.ReadKey();
+                Console.Write("\nPlease enter any key...");
+                Console.ReadKey();
             }
             catch (Exception ex)
             {
-                System.Console.WriteLine("{0}", ex.Message);
-                System.Console.WriteLine("");
+                Console.WriteLine("{0}", ex.Message);
+                Console.WriteLine("");
             }
         }
 
@@ -92,28 +83,25 @@ namespace Pinmaps.netApiClient
         ///GET v1/credentials/developer/validate
         ///This method validate the Developer's API Credentials.
         ///</summary>
-        ///<example>
-        ///Request URL
-        ///http://api.pinmaps.net/v1/credentials/developer/validate?apiLogin={apiLogin}&developerKey={developerKey}
-        /// </example>
         public static void ValidateDeveloperApiCredentials()
         {
             try
             {
-                System.Console.Clear();
-                RestFactory<DeveloperApiCredentialsResponse> RestRepository = new RestFactory<DeveloperApiCredentialsResponse>();
-                string formattedUrl = API_BASE_URL + "credentials/developer/validate?apiLogin={0}&developerKey={1}";
-                formattedUrl = string.Format(formattedUrl, DEVELOPER_API_LOGIN, DEVELOPER_API_KEY);
+                Console.Clear();
+                RestFactory<DeveloperApiCredentialsResponse> restRepository = new RestFactory<DeveloperApiCredentialsResponse>();
+                string formattedUrl = ApiBaseUrl + "credentials/developer/validate?apiLogin={0}&developerKey={1}";
+                formattedUrl = string.Format(formattedUrl, DeveloperApiLogin, DeveloperApiKey);
 
-                var item = RestRepository.GetEntity(formattedUrl);
+                var item = restRepository.GetEntity(formattedUrl);
+                Console.Write("\nAPI Key is active: {0}", item.IsActive);
 
-                System.Console.Write("\nPlease enter any key...");
-                System.Console.ReadKey();
+                Console.Write("\nPlease enter any key...");
+                Console.ReadKey();
             }
             catch (Exception ex)
             {
-                System.Console.WriteLine("{0}", ex.ToString());
-                System.Console.WriteLine("");
+                Console.WriteLine("{0}", ex.Message);
+                Console.WriteLine("");
             }
         }
 
@@ -121,28 +109,25 @@ namespace Pinmaps.netApiClient
         ///GET v1/credentials/user/validate
         ///This method validate the User's API Credentials.
         ///</summary>
-        ///<example>
-        ///Request URL
-        ///http://api.pinmaps.net/v1/credentials/user/validate?userName={userName}&userKey={userKey}
-        /// </example>
         public static void ValidateUserApiCredentials()
         {
             try
             {
-                System.Console.Clear();
-                RestFactory<UserApiCredentialsResponse> RestRepository = new RestFactory<UserApiCredentialsResponse>();
-                string formattedUrl = API_BASE_URL + "credentials/user/validate?userName={0}&userKey={1}";
-                formattedUrl = string.Format(formattedUrl, USER_NAME, USER_API_KEY);
+                Console.Clear();
+                RestFactory<UserApiCredentialsResponse> restRepository = new RestFactory<UserApiCredentialsResponse>();
+                string formattedUrl = ApiBaseUrl + "credentials/user/validate?userName={0}&userKey={1}";
+                formattedUrl = string.Format(formattedUrl, UserName, UserApiKey);
 
-                var item = RestRepository.GetEntity(formattedUrl);
+                var item = restRepository.GetEntity(formattedUrl);
+                Console.Write("\nUsername: {0}, API Key: {1}, Date Created: {2}", item.UserName, item.UserApiKey, item.DateCreated);
 
-                System.Console.Write("\nPlease enter any key...");
-                System.Console.ReadKey();
+                Console.Write("\nPlease enter any key...");
+                Console.ReadKey();
             }
             catch (Exception ex)
             {
-                System.Console.WriteLine("{0}", ex.Message);
-                System.Console.WriteLine("");
+                Console.WriteLine("{0}", ex.Message);
+                Console.WriteLine("");
             }
         }
 #endregion
@@ -152,32 +137,28 @@ namespace Pinmaps.netApiClient
         ///GET v1/map
         ///This method returns a single map object by map ID. The result does not include the map points.
         ///</summary>
-        /// <example>
-        ///Request URL
-        ///http://api.pinmaps.net/v1/map?id={id}&apiLogin={apiLogin}&developerKey={developerKey}&userName={userName}&userKey={userKey}
-        /// </example>
         public static void GetMap()
         {
             try
             {
-                System.Console.Clear();
-                RestFactory<MapResponse> RestRepository = new RestFactory<MapResponse>();
-                int MapID = 0;   // Enter your map ID here
+                Console.Clear();
+                RestFactory<MapResponse> restRepository = new RestFactory<MapResponse>();
+                int mapId = 0;   // Enter your map ID here
 
-                string formattedUrl = API_BASE_URL + "map?id={0}&apiLogin={1}&developerKey={2}&userName={3}&userKey={4}";
-                formattedUrl = string.Format(formattedUrl, MapID, DEVELOPER_API_LOGIN, DEVELOPER_API_KEY, USER_NAME, USER_API_KEY);
+                string formattedUrl = ApiBaseUrl + "map?id={0}&apiLogin={1}&developerKey={2}&userName={3}&userKey={4}";
+                formattedUrl = string.Format(formattedUrl, mapId, DeveloperApiLogin, DeveloperApiKey, UserName, UserApiKey);
 
-                var item = RestRepository.GetEntity(formattedUrl);
+                var item = restRepository.GetEntity(formattedUrl);
 
-                System.Console.Write("\n{0} - {1} - {2} - {3}", item.MapID, item.MapName, item.MapOwner, item.Icon.IconName + "\n");
+                Console.Write("\n{0} - {1} - {2} - {3}", item.MapId, item.MapName, item.MapOwner, item.Icon.IconName + "\n");
 
-                System.Console.Write("\nPlease enter any key...");
-                System.Console.ReadKey();
+                Console.Write("\nPlease enter any key...");
+                Console.ReadKey();
             }
             catch (Exception ex)
             {
-                System.Console.WriteLine("{0}", ex.Message);
-                System.Console.WriteLine("");
+                Console.WriteLine("{0}", ex.Message);
+                Console.WriteLine("");
             }
         }
 
@@ -185,33 +166,29 @@ namespace Pinmaps.netApiClient
         ///GET v1/maps
         ///This method returns a collection of maps objects by username. The list does not include the map points.
         ///</summary>
-        ///<example>
-        ///Request URL
-        ///http://api.pinmaps.net/v1/maps?apiLogin={apiLogin}&developerKey={developerKey}&userName={userName}&userKey={userKey}
-        /// </example>
         public static void GetMapsCollection()
         {
             try
             {
-                System.Console.Clear();
-                RestFactory<MapResponse> RestRepository = new RestFactory<MapResponse>();
+                Console.Clear();
+                RestFactory<MapResponse> restRepository = new RestFactory<MapResponse>();
 
-                string formattedUrl = API_BASE_URL + "maps?apiLogin={0}&developerKey={1}&userName={2}&userKey={3}";
-                formattedUrl = string.Format(formattedUrl, DEVELOPER_API_LOGIN, DEVELOPER_API_KEY, USER_NAME, USER_API_KEY);
+                string formattedUrl = ApiBaseUrl + "maps?apiLogin={0}&developerKey={1}&userName={2}&userKey={3}";
+                formattedUrl = string.Format(formattedUrl, DeveloperApiLogin, DeveloperApiKey, UserName, UserApiKey);
 
-                var Maps = RestRepository.GetCollection(formattedUrl);
-                foreach (var item in Maps)
+                var maps = restRepository.GetCollection(formattedUrl);
+                foreach (var item in maps)
                 {
-                    System.Console.Write("\n{0} - {1} - {2} - {3}", item.MapID, item.MapName, item.MapOwner, item.Icon.IconName);
+                    Console.Write("\n{0} - {1} - {2} - {3}", item.MapId, item.MapName, item.MapOwner, item.Icon.IconName);
                 }
 
-                System.Console.Write("\n\nPlease enter any key...");
-                System.Console.ReadKey();
+                Console.Write("\n\nPlease enter any key...");
+                Console.ReadKey();
             }
             catch (Exception ex)
             {
-                System.Console.WriteLine("{0}", ex.Message);
-                System.Console.WriteLine("");
+                Console.WriteLine("{0}", ex.Message);
+                Console.WriteLine("");
             }
         }
 
@@ -219,32 +196,29 @@ namespace Pinmaps.netApiClient
         ///POST v1/map/create
         ///This method creates a single map on the selected MapZone and returns the created map object
         ///</summary>
-        ///<example>
-        ///Resource URL
-        ///http://api.pinmaps.net/v1/map/create.json
-        /// </example>
         public static void CreateMap()
         {
             try
             {
-                System.Console.Clear();
-                MapRequest Map = new MapRequest();
-                Map.MapName = "Europe Airports";
-                Map.MapZone = "EUROPE";       // WORLD,  USA,  EUROPE,  AUSTRALIA,  AFRICA,  NORTHAMERICA,  SOUTHAMERICA,  CANADA,  ASIA
-                Map.MapType = "ROADMAP";      // ROADMAP,  SATELLITE,  HYBRID,  TERRAIN
-                Map.UserName = USER_NAME;
-                Map.DeveloperApiLogin = DEVELOPER_API_LOGIN;
-                Map.DeveloperApiKey = DEVELOPER_API_KEY;
-                Map.UserApiKey = USER_API_KEY;
-
-                RestFactory<MapRequest> RestRepository = new RestFactory<MapRequest>();
-                RestRepository.ApiRequest(Map, API_BASE_URL + "map/create", "POST");
-                System.Console.WriteLine("");
+                Console.Clear();
+                MapRequest map = new MapRequest
+                {
+                    MapName = "Europe Airports",
+                    MapType = "ROADMAP",       // ROADMAP,  SATELLITE,  HYBRID,  TERRAIN
+                    UserName = UserName,
+                    DeveloperApiLogin = DeveloperApiLogin,
+                    DeveloperApiKey = DeveloperApiKey,
+                    UserApiKey = UserApiKey
+                };
+                
+                RestFactory<MapRequest> restRepository = new RestFactory<MapRequest>();
+                restRepository.ApiRequest(map, ApiBaseUrl + "map/create", "POST");
+                Console.WriteLine("");
             }
             catch (Exception ex)
             {
-                System.Console.WriteLine("{0}", ex.Message);
-                System.Console.WriteLine("");
+                Console.WriteLine("{0}", ex.Message);
+                Console.WriteLine("");
             }
         }
 
@@ -252,33 +226,30 @@ namespace Pinmaps.netApiClient
         ///PUT v1/map/update
         ///This method updates a single map and returns the updated map object
         ///</summary>
-        ///<example>
-        ///Resource URL
-        ///http://api.pinmaps.net/v1/map/update.json
-        /// </example>
         public static void UpdateMap()
         {
             try
             {
-                System.Console.Clear();
-                MapRequest Map = new MapRequest();
-                Map.MapID = 0;                    // Enter your map ID here
-                Map.MapName = "USA Airports";
-                Map.MapZone = "USA";             // WORLD,  USA,  EUROPE,  AUSTRALIA,  AFRICA,  NORTHAMERICA,  SOUTHAMERICA,  CANADA,  ASIA
-                Map.MapType = "SATELLITE";       // ROADMAP  SATELLITE  HYBRID  TERRAIN
-                Map.UserName = USER_NAME;
-                Map.DeveloperApiLogin = DEVELOPER_API_LOGIN;
-                Map.DeveloperApiKey = DEVELOPER_API_KEY;
-                Map.UserApiKey = USER_API_KEY;
+                Console.Clear();
+                MapRequest map = new MapRequest
+                {
+                    MapId = 0,               // Enter your map ID here
+                    MapName = "USA Airports",
+                    MapType = "SATELLITE",   // ROADMAP  SATELLITE  HYBRID  TERRAIN
+                    UserName = UserName,
+                    DeveloperApiLogin = DeveloperApiLogin,
+                    DeveloperApiKey = DeveloperApiKey,
+                    UserApiKey = UserApiKey
+                };
 
-                RestFactory<MapRequest> RestRepository = new RestFactory<MapRequest>();
-                RestRepository.ApiRequest(Map, API_BASE_URL + "map/update", "PUT");
-                System.Console.WriteLine("");
+                RestFactory<MapRequest> restRepository = new RestFactory<MapRequest>();
+                restRepository.ApiRequest(map, ApiBaseUrl + "map/update", "PUT");
+                Console.WriteLine("");
             }
             catch (Exception ex)
             {
-                System.Console.WriteLine("{0}", ex.Message);
-                System.Console.WriteLine("");
+                Console.WriteLine("{0}", ex.Message);
+                Console.WriteLine("");
             }
         }
 
@@ -286,30 +257,28 @@ namespace Pinmaps.netApiClient
         ///DELETE v1/map/destroy
         ///This method removes a single map object by map ID
         ///</summary>
-        ///<example>
-        ///Resource URL
-        ///http://api.pinmaps.net/v1/map/destroy.json
-        /// </example>
         public static void DeleteMap()
         {
             try
             {
-                System.Console.Clear();
-                MapRequest Point = new MapRequest();
-                Point.MapID = 0;         // Enter your map ID here
-                Point.UserName = USER_NAME;
-                Point.DeveloperApiLogin = DEVELOPER_API_LOGIN;
-                Point.DeveloperApiKey = DEVELOPER_API_KEY;
-                Point.UserApiKey = USER_API_KEY;
+                Console.Clear();
+                MapRequest point = new MapRequest
+                {
+                    MapId = 0,          // Enter your map ID here
+                    UserName = UserName,
+                    DeveloperApiLogin = DeveloperApiLogin,
+                    DeveloperApiKey = DeveloperApiKey,
+                    UserApiKey = UserApiKey
+                };
 
-                RestFactory<MapRequest> RestRepository = new RestFactory<MapRequest>();
-                RestRepository.ApiRequest(Point, API_BASE_URL + "map/destroy", "DELETE");
-                System.Console.WriteLine("");
+                RestFactory<MapRequest> restRepository = new RestFactory<MapRequest>();
+                restRepository.ApiRequest(point, ApiBaseUrl + "map/destroy", "DELETE");
+                Console.WriteLine("");
             }
             catch (Exception ex)
             {
-                System.Console.WriteLine("{0}", ex.Message);
-                System.Console.WriteLine("");
+                Console.WriteLine("{0}", ex.Message);
+                Console.WriteLine("");
             }
         }
 
@@ -317,31 +286,27 @@ namespace Pinmaps.netApiClient
         ///GET v1/maps/count
         ///This method returns the total maps count by username.
         ///</summary>
-        ///<example>
-        ///Request URL
-        ///http://api.pinmaps.net/v1/maps/count?apiLogin={apiLogin}&developerKey={developerKey}&userName={userName}&userKey={userKey}
-        /// </example>
         public static void GetMapsCount()
         {
             try
             {
-                System.Console.Clear();
-                RestFactory<MapCountResponse> RestRepository = new RestFactory<MapCountResponse>();
+                Console.Clear();
+                RestFactory<MapCountResponse> restRepository = new RestFactory<MapCountResponse>();
 
-                string formattedUrl = API_BASE_URL + "maps/count?apiLogin={0}&developerKey={1}&userName={2}&userKey={3}";
-                formattedUrl = string.Format(formattedUrl, DEVELOPER_API_LOGIN, DEVELOPER_API_KEY, USER_NAME, USER_API_KEY);
+                string formattedUrl = ApiBaseUrl + "maps/count?apiLogin={0}&developerKey={1}&userName={2}&userKey={3}";
+                formattedUrl = string.Format(formattedUrl, DeveloperApiLogin, DeveloperApiKey, UserName, UserApiKey);
 
-                var item = RestRepository.GetEntity(formattedUrl);
-                System.Console.Write("\n{0} - {1}", item.UserName, item.Count + "\n");
+                var item = restRepository.GetEntity(formattedUrl);
+                Console.Write("\n{0} - {1}", item.UserName, item.Count + "\n");
 
-                System.Console.Write("\nPlease enter any key...");
-                System.Console.ReadKey();
+                Console.Write("\nPlease enter any key...");
+                Console.ReadKey();
 
             }
             catch (Exception ex)
             {
-                System.Console.WriteLine("{0}", ex.Message);
-                System.Console.WriteLine("");
+                Console.WriteLine("{0}", ex.Message);
+                Console.WriteLine("");
             }
         }
 #endregion
@@ -351,32 +316,28 @@ namespace Pinmaps.netApiClient
         ///GET v1/pin
         ///This method returns a single map point object by map point ID.
         ///</summary>
-        ///<example>
-        ///Request URL
-        ///http://api.pinmaps.net/v1/pin?id={id}&apiLogin={apiLogin}&developerKey={developerKey}&userName={userName}&userKey={userKey}n
-        /// </example>
         public static void GetMapPoint()
         {
             try
             {
-                System.Console.Clear();
-                RestFactory<MapPointResponse> RestRepository = new RestFactory<MapPointResponse>();
-                int MapPointID = 0;   // Enter your map pint ID here
+                Console.Clear();
+                RestFactory<MapPointResponse> restRepository = new RestFactory<MapPointResponse>();
+                int mapPointId = 0;   // Enter your map pint ID here
 
-                string formattedUrl = API_BASE_URL + "pin?id={0}&apiLogin={1}&developerKey={2}&userName={3}&userKey={4}";
-                formattedUrl = string.Format(formattedUrl, MapPointID, DEVELOPER_API_LOGIN, DEVELOPER_API_KEY, USER_NAME, USER_API_KEY);
+                string formattedUrl = ApiBaseUrl + "pin?id={0}&apiLogin={1}&developerKey={2}&userName={3}&userKey={4}";
+                formattedUrl = string.Format(formattedUrl, mapPointId, DeveloperApiLogin, DeveloperApiKey, UserName, UserApiKey);
 
-                var item = RestRepository.GetEntity(formattedUrl);
+                var item = restRepository.GetEntity(formattedUrl);
 
-                System.Console.Write("\n{0} - {1} - {2} - {3}", item.MapPointID, item.PointName, item.UserName, item.Icon.IconName + "\n");
+                Console.Write("\n{0} - {1} - {2} - {3}", item.MapPointId, item.PointName, item.UserName, item.Icon.IconName + "\n");
 
-                System.Console.Write("\nPlease enter any key...");
-                System.Console.ReadKey();
+                Console.Write("\nPlease enter any key...");
+                Console.ReadKey();
             }
             catch (Exception ex)
             {
-                System.Console.WriteLine("{0}", ex.Message);
-                System.Console.WriteLine("");
+                Console.WriteLine("{0}", ex.Message);
+                Console.WriteLine("");
             }
         }
 
@@ -384,34 +345,30 @@ namespace Pinmaps.netApiClient
         ///GET v1/pins
         ///This method returns a collection of map points objects by map ID.
         ///</summary>
-        ///<example>
-        ///Request URL
-        ///http://api.pinmaps.net/v1/pins?id={id}&apiLogin={apiLogin}&developerKey={developerKey}&userName={userName}&userKey={userKey}
-        /// </example>
         public static void GetMapPointsCollection()
         {
             try
             {
-                System.Console.Clear();
-                RestFactory<MapPointResponse> RestRepository = new RestFactory<MapPointResponse>();
-                int MapID = 0;    // Enter your map ID here
+                Console.Clear();
+                RestFactory<MapPointResponse> restRepository = new RestFactory<MapPointResponse>();
+                int mapId = 0;    // Enter your map ID here
 
-                string formattedUrl = API_BASE_URL + "pins?id={0}&apiLogin={1}&developerKey={2}&userName={3}&userKey={4}";
-                formattedUrl = string.Format(formattedUrl, MapID, DEVELOPER_API_LOGIN, DEVELOPER_API_KEY, USER_NAME, USER_API_KEY);
+                string formattedUrl = ApiBaseUrl + "pins?id={0}&apiLogin={1}&developerKey={2}&userName={3}&userKey={4}";
+                formattedUrl = string.Format(formattedUrl, mapId, DeveloperApiLogin, DeveloperApiKey, UserName, UserApiKey);
 
-                var Pins = RestRepository.GetCollection(formattedUrl);
-                foreach (var item in Pins)
+                var pins = restRepository.GetCollection(formattedUrl);
+                foreach (var item in pins)
                 {
-                    System.Console.Write("\n{0} - {1} - {2} - {3}", item.MapPointID, item.PointName, item.UserName, item.Icon.IconName);
+                    Console.Write("\n{0} - {1} - {2} - {3}", item.MapPointId, item.PointName, item.UserName, item.Icon.IconName);
                 }
 
-                System.Console.Write("\n\nPlease enter any key...");
-                System.Console.ReadKey();
+                Console.Write("\n\nPlease enter any key...");
+                Console.ReadKey();
             }
             catch (Exception ex)
             {
-                System.Console.WriteLine("{0}", ex.Message);
-                System.Console.WriteLine("");
+                Console.WriteLine("{0}", ex.Message);
+                Console.WriteLine("");
             }
 
         }
@@ -431,26 +388,28 @@ namespace Pinmaps.netApiClient
         {
             try
             {
-                System.Console.Clear();
-                MapPointRequest Point = new MapPointRequest();
-                Point.Address = "EWR";
-                Point.PointName = "Newark Liberty International";
-                Point.UserName = USER_NAME;
-                Point.MapID = 0;                 // Enter your map ID here
-                Point.MapType = "SATELLITE";     // ROADMAP,  SATELLITE,  HYBRID,  TERRAIN
-                Point.PointInformation = "This is my favorite Airport";
-                Point.DeveloperApiLogin = DEVELOPER_API_LOGIN;
-                Point.DeveloperApiKey = DEVELOPER_API_KEY;
-                Point.UserApiKey = USER_API_KEY;
+                Console.Clear();
+                MapPointRequest point = new MapPointRequest
+                {
+                    Address = "EWR",
+                    PointName = "Newark Liberty International",
+                    UserName = UserName,
+                    MapId = 0,                 // Enter your map ID here
+                    MapType = "SATELLITE",     // ROADMAP,  SATELLITE,  HYBRID,  TERRAIN
+                    PointInformation = "This is my favorite Airport",
+                    DeveloperApiLogin = DeveloperApiLogin,
+                    DeveloperApiKey = DeveloperApiKey,
+                    UserApiKey = UserApiKey
+                };
 
-                RestFactory<MapPointRequest> RestRepository = new RestFactory<MapPointRequest>();
-                RestRepository.ApiRequest(Point, API_BASE_URL + "pin/create", "POST");
-                System.Console.WriteLine("");
+                RestFactory<MapPointRequest> restRepository = new RestFactory<MapPointRequest>();
+                restRepository.ApiRequest(point, ApiBaseUrl + "pin/create", "POST");
+                Console.WriteLine("");
             }
             catch (Exception ex)
             {
-                System.Console.WriteLine("{0}", ex.Message);
-                System.Console.WriteLine("");
+                Console.WriteLine("{0}", ex.Message);
+                Console.WriteLine("");
             }
         }
 
@@ -469,27 +428,29 @@ namespace Pinmaps.netApiClient
         {
             try
             {
-                System.Console.Clear();
-                MapPointRequest Point = new MapPointRequest();
-                Point.Address = "EWR";
-                Point.PointName = "Newark Liberty International";
-                Point.UserName = USER_NAME;
-                Point.MapID = 0;              // Enter your map ID here
-                Point.MapPointID = 0;         // Enter your map point ID here
-                Point.MapType = "HYBRID";     // ROADMAP,  SATELLITE,  HYBRID,  TERRAIN
-                Point.PointInformation = "";
-                Point.DeveloperApiLogin = DEVELOPER_API_LOGIN;
-                Point.DeveloperApiKey = DEVELOPER_API_KEY;
-                Point.UserApiKey = USER_API_KEY;
-
-                RestFactory<MapPointRequest> RestRepository = new RestFactory<MapPointRequest>();
-                RestRepository.ApiRequest(Point, API_BASE_URL + "pin/update", "PUT");
-                System.Console.WriteLine("");
+                Console.Clear();
+                MapPointRequest point = new MapPointRequest
+                {
+                    Address = "EWR",
+                    PointName = "Newark Liberty International",
+                    UserName = UserName,
+                    MapId = 0,           // Enter your map ID here
+                    MapPointId = 0,      // Enter your map point ID here
+                    MapType = "HYBRID",  // ROADMAP,  SATELLITE,  HYBRID,  TERRAIN
+                    PointInformation = "",
+                    DeveloperApiLogin = DeveloperApiLogin,
+                    DeveloperApiKey = DeveloperApiKey,
+                    UserApiKey = UserApiKey
+                };
+                
+                RestFactory<MapPointRequest> restRepository = new RestFactory<MapPointRequest>();
+                restRepository.ApiRequest(point, ApiBaseUrl + "pin/update", "PUT");
+                Console.WriteLine("");
             }
             catch (Exception ex)
             {
-                System.Console.WriteLine("{0}", ex.Message);
-                System.Console.WriteLine("");
+                Console.WriteLine("{0}", ex.Message);
+                Console.WriteLine("");
             }
         }
 
@@ -508,22 +469,24 @@ namespace Pinmaps.netApiClient
         {
             try
             {
-                System.Console.Clear();
-                MapPointRequest Point = new MapPointRequest();
-                Point.MapPointID = 0;    // Enter your map point ID here
-                Point.UserName = USER_NAME;
-                Point.DeveloperApiLogin = DEVELOPER_API_LOGIN;
-                Point.DeveloperApiKey = DEVELOPER_API_KEY;
-                Point.UserApiKey = USER_API_KEY;
+                Console.Clear();
+                MapPointRequest point = new MapPointRequest
+                {
+                    MapPointId = 0,   // Enter your map point ID here
+                    UserName = UserName,
+                    DeveloperApiLogin = DeveloperApiLogin,
+                    DeveloperApiKey = DeveloperApiKey,
+                    UserApiKey = UserApiKey
+                };
 
-                RestFactory<MapPointRequest> RestRepository = new RestFactory<MapPointRequest>();
-                RestRepository.ApiRequest(Point, API_BASE_URL + "pin/destroy", "DELETE");
-                System.Console.WriteLine("");
+                RestFactory<MapPointRequest> restRepository = new RestFactory<MapPointRequest>();
+                restRepository.ApiRequest(point, ApiBaseUrl + "pin/destroy", "DELETE");
+                Console.WriteLine("");
             }
             catch (Exception ex)
             {
-                System.Console.WriteLine("{0}", ex.Message);
-                System.Console.WriteLine("");
+                Console.WriteLine("{0}", ex.Message);
+                Console.WriteLine("");
             }
         }
 
@@ -531,31 +494,27 @@ namespace Pinmaps.netApiClient
         ///GET v1/pins/count
         ///This method returns the total map points count by map ID.
         ///</summary>
-        ///<example>
-        ///Request URL
-        ///http://api.pinmaps.net/v1/pins/count?id={id}&apiLogin={apiLogin}&developerKey={developerKey}&userName={userName}&userKey={userKey}
-        /// </example>
         public static void GetMapPointsCount()
         {
             try
             {
-                System.Console.Clear();
-                RestFactory<MapPointCountResponse> RestRepository = new RestFactory<MapPointCountResponse>();
-                int MapID = 0;    // Enter your map ID here
+                Console.Clear();
+                RestFactory<MapPointCountResponse> restRepository = new RestFactory<MapPointCountResponse>();
+                int mapId = 0;    // Enter your map ID here
 
-                string formattedUrl = API_BASE_URL + "pins/count?id={0}&apiLogin={1}&developerKey={2}&userName={3}&userKey={4}";
-                formattedUrl = string.Format(formattedUrl, MapID, DEVELOPER_API_LOGIN, DEVELOPER_API_KEY, USER_NAME, USER_API_KEY);
+                string formattedUrl = ApiBaseUrl + "pins/count?id={0}&apiLogin={1}&developerKey={2}&userName={3}&userKey={4}";
+                formattedUrl = string.Format(formattedUrl, mapId, DeveloperApiLogin, DeveloperApiKey, UserName, UserApiKey);
 
-                var item = RestRepository.GetEntity(formattedUrl);
-                System.Console.Write("\n{0} - {1}", item.MapID, item.Count + "\n");
+                var item = restRepository.GetEntity(formattedUrl);
+                Console.Write("\n{0} - {1}", item.MapId, item.Count + "\n");
 
-                System.Console.Write("\nPlease enter any key...");
-                System.Console.ReadKey();
+                Console.Write("\nPlease enter any key...");
+                Console.ReadKey();
             }
             catch (Exception ex)
             {
-                System.Console.WriteLine("{0}", ex.Message);
-                System.Console.WriteLine("");
+                Console.WriteLine("{0}", ex.Message);
+                Console.WriteLine("");
             }
         }
 #endregion
